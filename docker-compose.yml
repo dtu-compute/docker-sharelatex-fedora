@@ -1,33 +1,27 @@
-tex:
-#  image: sharelatex/sharelatex
-  build: /docker2/sharelatex
+sharelatex:
+  build: ./sharelatex
   ports:
     - "80:80"
-#    - "3000:3000"
 #  volumes:
 #    - /docker/sharelatex/dat:/var/lib/sharelatex
   links:
-    - mongodb:db
-    - redis:red
+    - sharelatex-db:db
+    - sharelatex-redis:redis
   environment:
     - SHARELATEX_MONGO_URL=mongodb://db/sharelatex
-    - SHARELATEX_REDIS_HOST=red
-    - SHARELATEX_APP_NAME="eNote super Latex"
-    - SHARELATEX_NAV_TITLE="ShareLatex for 02402"
+    - SHARELATEX_REDIS_HOST=redis
+    - SHARELATEX_APP_NAME="Test"
+    - SHARELATEX_NAV_TITLE="Test 2"
 
-mongodb:
-  image: tutum/mongodb
+sharelatex-db:
+  build: /docker/dtu-enote/components/mongodb
   expose:
     - "27017"
-    - "28017"
 #  volumes:
 #    - /docker/sharelatex/mongodb:/var/lib/mongodb
 #    - /docker/sharelatex/mongolog:/var/log/mongodb
-  environment:
-    - AUTH=no
 
-redis:
+sharelatex-redis:
   image: redis
   expose:
     - "6379"
-

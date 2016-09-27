@@ -7,6 +7,16 @@ httpAuthPass = "CRYPTO_RANDOM" # Randomly generated for you
 httpAuthUsers = {}
 httpAuthUsers[httpAuthUser] = httpAuthPass
 
+parse = (option)->
+	if option?
+		try
+			opt = JSON.parse(option)
+			return opt
+		catch err
+			console.error "problem parsing #{option}, invalid JSON"
+			return undefined
+
+
 DATA_DIR = '/var/lib/sharelatex/data'
 TMP_DIR = '/var/lib/sharelatex/tmp'
 
@@ -101,7 +111,7 @@ settings =
 
 
 	nav:
-		title: process.env["SHARELATEX_NAV_TITLE"] or  process.env["SHARELATEX_APP_NAME"] or "ShareLaTeX Comunity Edition"
+		title: process.env["SHARELATEX_NAV_TITLE"] or  process.env["SHARELATEX_APP_NAME"] or "ShareLaTeX Community Edition"
 
 
 	# The email address which users will be directed to as the main point of
@@ -134,8 +144,8 @@ settings =
 	# If you are running ShareLaTeX behind a proxy (like Apache, Nginx, etc)
 	# then set this to true to allow it to correctly detect the forwarded IP
 	# address and http/https protocol information.
-	behindProxy: process.env["SHARELATEX_BEHIND_PROXY"] or false
 
+	behindProxy: process.env["SHARELATEX_BEHIND_PROXY"] or false
 
 	# Spell Check Languages
 	# ---------------------
@@ -145,270 +155,171 @@ settings =
 	# dictionaries you have installed. These should be set for the `code` for
 	# each language.
 	languages: [{
-		"code":"en",
-		"name":"English (American)"
+		"code":"en", "name":"English (American)"
 		},{
-		"code":"en_GB",
-		"name":"English (British)"
+		"code":"en_GB", "name":"English (British)"
 		},{
-		"code":"af",
-		"name":"Africaans"
+		"code":"af", "name":"Africaans"
 		},{
-		"code":"am",
-		"name":"Amharic"
+		"code":"am", "name":"Amharic"
 		},{
-		"code":"ar",
-		"name":"Arabic"
+		"code":"ar", "name":"Arabic"
 		},{
-		"code":"hy",
-		"name":"Armenian"
+		"code":"hy", "name":"Armenian"
 		},{
-		"code":"gl",
-		"name":"Galician"
+		"code":"gl", "name":"Galician"
 		},{
-		"code":"eu",
-		"name":"Basque"
+		"code":"eu", "name":"Basque"
 		},{
-		"code":"bn",
-		"name":"Bengali"
+		"code":"bn", "name":"Bengali"
 		},{
-		"code":"br",
-		"name":"Breton"
+		"code":"br", "name":"Breton"
 		},{
-		"code":"bg",
-		"name":"Bulgarian"
+		"code":"bg", "name":"Bulgarian"
 		},{
-		"code":"ca",
-		"name":"Catalan"
+		"code":"ca", "name":"Catalan"
 		},{
-		"code":"hr",
-		"name":"Croatian"
+		"code":"hr", "name":"Croatian"
 		},{
-		"code":"cs",
-		"name":"Czech"
+		"code":"cs", "name":"Czech"
 		},{
-		"code":"da",
-		"name":"Danish"
+		"code":"da", "name":"Danish"
 		},{
-		"code":"nl",
-		"name":"Dutch"
+		"code":"nl", "name":"Dutch"
 		},{
-		"code":"eo",
-		"name":"Esperanto"
+		"code":"eo", "name":"Esperanto"
 		},{
-		"code":"et",
-		"name":"Estonian"
+		"code":"et", "name":"Estonian"
 		},{
-		"code":"fo",
-		"name":"Faroese"
+		"code":"fo", "name":"Faroese"
 		},{
-		"code":"fr",
-		"name":"French"
+		"code":"fr", "name":"French"
 		},{
-		"code":"de",
-		"name":"German"
+		"code":"de", "name":"German"
 		},{
-		"code":"el",
-		"name":"Greek"
+		"code":"el", "name":"Greek"
 		},{
-		"code":"gu",
-		"name":"Gujarati"
+		"code":"gu", "name":"Gujarati"
 		},{
-		"code":"he",
-		"name":"Hebrew"
+		"code":"he", "name":"Hebrew"
 		},{
-		"code":"hi",
-		"name":"Hindi"
+		"code":"hi", "name":"Hindi"
 		},{
-		"code":"hu",
-		"name":"Hungarian"
+		"code":"hu", "name":"Hungarian"
 		},{
-		"code":"is",
-		"name":"Icelandic"
+		"code":"is", "name":"Icelandic"
 		},{
-		"code":"id",
-		"name":"Indonesian"
+		"code":"id", "name":"Indonesian"
 		},{
-		"code":"ga",
-		"name":"Irish"
+		"code":"ga", "name":"Irish"
 		},{
-		"code":"it",
-		"name":"Italian"
+		"code":"it", "name":"Italian"
 		},{
-		"code":"kn",
-		"name":"Kannada"
+		"code":"kn", "name":"Kannada"
 		},{
-		"code":"kk",
-		"name":"Kazakh"
+		"code":"kk", "name":"Kazakh"
 		},{
-		"code":"ku",
-		"name":"Kurdish"
+		"code":"ku", "name":"Kurdish"
 		},{
-		"code":"lv",
-		"name":"Latvian"
+		"code":"lv", "name":"Latvian"
 		},{
-		"code":"lt",
-		"name":"Lithuanian"
+		"code":"lt", "name":"Lithuanian"
 		},{
-		"code":"ml",
-		"name":"Malayalam"
+		"code":"ml", "name":"Malayalam"
 		},{
-		"code":"mr",
-		"name":"Marathi"
+		"code":"mr", "name":"Marathi"
 		},{
-		"code":"nr",
-		"name":"Ndebele"
+		"code":"nr", "name":"Ndebele"
 		},{
-		"code":"ns",
-		"name":"Northern Sotho"
+		"code":"ns", "name":"Northern Sotho"
 		},{
-		"code":"no",
-		"name":"Norwegian"
+		"code":"no", "name":"Norwegian"
 		},{
-		"code":"or",
-		"name":"Oriya"
+		"code":"or", "name":"Oriya"
 		},{
-		"code":"fa",
-		"name":"Persian"
+		"code":"fa", "name":"Persian"
 		},{
-		"code":"pl",
-		"name":"Polish"
+		"code":"pl", "name":"Polish"
 		},{
-		"code":"pt_BR",
-		"name":"Portuguese (Brazilian)"
+		"code":"pt_BR", "name":"Portuguese (Brazilian)"
 		},{
-		"code":"pt_PT",
-		"name":"Portuguese (European)"
+		"code":"pt_PT", "name":"Portuguese (European)"
 		},{
-		"code":"pa",
-		"name":"Punjabi"
+		"code":"pa", "name":"Punjabi"
 		},{
-		"code":"ro",
-		"name":"Romanian"
+		"code":"ro", "name":"Romanian"
 		},{
-		"code":"ru",
-		"name":"Russian"
+		"code":"ru", "name":"Russian"
 		},{
-		"code":"sk",
-		"name":"Slovak"
+		"code":"sk", "name":"Slovak"
 		},{
-		"code":"sl",
-		"name":"Slovenian"
+		"code":"sl", "name":"Slovenian"
 		},{
-		"code":"st",
-		"name":"Southern Sotho"
+		"code":"st", "name":"Southern Sotho"
 		},{
-		"code":"es",
-		"name":"Spanish"
+		"code":"es", "name":"Spanish"
 		},{
-		"code":"ss",
-		"name":"Swazi"
+		"code":"ss", "name":"Swazi"
 		},{
-		"code":"sv",
-		"name":"Swedish"
+		"code":"sv", "name":"Swedish"
 		},{
-		"code":"tl",
-		"name":"Tagalog"
+		"code":"tl", "name":"Tagalog"
 		},{
-		"code":"ta",
-		"name":"Tamil"
+		"code":"ta", "name":"Tamil"
 		},{
-		"code":"te",
-		"name":"Telugu"
+		"code":"te", "name":"Telugu"
 		},{
-		"code":"ts",
-		"name":"Tsonga"
+		"code":"ts", "name":"Tsonga"
 		},{
-		"code":"tn",
-		"name":"Tswana"
+		"code":"tn", "name":"Tswana"
 		},{
-		"code":"uk",
-		"name":"Ukrainian"
+		"code":"uk", "name":"Ukrainian"
 		},{
-		"code":"hsb",
-		"name":"Upper Sorbian"
+		"code":"hsb", "name":"Upper Sorbian"
 		},{
-		"code":"uz",
-		"name":"Uzbek"
+		"code":"uz", "name":"Uzbek"
 		},{
-		"code":"cy",
-		"name":"Welsh"
+		"code":"cy", "name":"Welsh"
 		},{
-		"code":"xh",
-		"name":"Xhosa"
+		"code":"xh", "name":"Xhosa"
 		},{
-		"code":"zu",
-		"name":"Zulu"
+		"code":"zu", "name":"Zulu"
 		}
 	]
-	
-	# Service locations
-	# -----------------
 
-	# ShareLaTeX is comprised of many small services, which each expose
-	# an HTTP API running on a different port. Generally you
-	# can leave these as they are unless you have some other services
-	# running which conflict, or want to run the web process on port 80.
-	# internal:
-	# 	web:
-	# 		port: webPort = 3000
-	# 		host: "localhost"
-	# 	documentupdater:
-	# 		port: docUpdaterPort = 3003
-	# 		host: "localhost"
-	# 	filestore:
-	# 		port: filestorePort = 3009
-	# 		host: "localhost"
-	# 	chat:
-	# 		port: chatPort = 3010
-	# 		host: "localhost"
-	# 	tags:
-	# 		port: tagsPort = 3012
-	# 		host: "localhost"
-	# 	clsi:
-	# 		port: clsiPort = 3013
-	# 		host: "localhost"
-	# 	trackchanges:
-	# 		port: trackchangesPort = 3015
-	# 		host: "localhost"
-	# 	docstore:
-	# 		port: docstorePort = 3016
-	# 		host: "localhost"
-	# 	spelling:
-	# 		port: spellingPort = 3005
-	# 		host: "localhost"
-	# 	templates:
-	# 		port: templatesPort = 3007
-	# 		host: "localhost"
-
-	# If you change the above config, or run some services on remote servers,
-	# you need to tell the other services where to find them:
 	apis:
 		web:
 			url: "http://localhost:3000"
 			user: httpAuthUser
 			pass: httpAuthPass
-	# 	documentupdater:
-	# 		url : "http://localhost:#{docUpdaterPort}"
-	# 	clsi:
-	# 		url: "http://localhost:#{clsiPort}"
-	# 	filestore:
-	# 		url: "http://localhost:#{filestorePort}"
-	# 	trackchanges:
-	# 		url: "http://localhost:#{trackchangesPort}"
-	# 	docstore:
-	# 		url: "http://localhost:#{docstorePort}"
-	# 	tags:
-	# 		url: "http://localhost:#{tagsPort}"
-	# 	spelling:
-	# 		url: "http://localhost:#{spellingPort}"
-	# 	chat:
-	# 		url: "http://localhost:#{chatPort}"
-	#	templates:
-	#		url: "http://localhost:#{templatesPort}"
+	references:{}
+	notifications:undefined
+
 
 
 #### OPTIONAL CONFIGERABLE SETTINGS
+
+if process.env["SHARELATEX_LEFT_FOOTER"]?
+	try
+		settings.nav.left_footer = JSON.parse(process.env["SHARELATEX_LEFT_FOOTER"])
+	catch e
+		console.error("could not parse SHARELATEX_LEFT_FOOTER, not valid JSON")
+
+if process.env["SHARELATEX_RIGHT_FOOTER"]?
+	settings.nav.right_footer = process.env["SHARELATEX_RIGHT_FOOTER"]
+	try
+		settings.nav.right_footer = JSON.parse(process.env["SHARELATEX_RIGHT_FOOTER"])
+	catch e
+		console.error("could not parse SHARELATEX_RIGHT_FOOTER, not valid JSON")
+
+if process.env["SHARELATEX_HEADER_IMAGE_URL"]?
+	settings.nav.custom_logo = process.env["SHARELATEX_HEADER_IMAGE_URL"]
+	
+if process.env["SHARELATEX_HEADER"]?
+	settings.nav.header = process.env["SHARELATEX_HEADER_NAV_LINKS"]
+
+# if process.env["SHARELATEX_PROXY_LEARN"]?
+# 	settings.nav.header.push({text: "help", class: "subdued", dropdown: [{text: "documentation", url: "/learn"}] })
 
 
 # Sending Email
@@ -421,7 +332,7 @@ settings =
 #     http://www.nodemailer.com/docs/transports
 
 
-if process.env["SHARELATEX_EMAIL_FROM_ADDRESS"]
+if process.env["SHARELATEX_EMAIL_FROM_ADDRESS"]?
 	
 	settings.email =
 		fromAddress: process.env["SHARELATEX_EMAIL_FROM_ADDRESS"]
@@ -434,11 +345,22 @@ if process.env["SHARELATEX_EMAIL_FROM_ADDRESS"]
 			#SMTP Creds
 			host: process.env["SHARELATEX_EMAIL_SMTP_HOST"]
 			port: process.env["SHARELATEX_EMAIL_SMTP_PORT"],
-			secure: process.env["SHARELATEX_EMAIL_SMTP_SECURE"]
-			auth:
-				user: process.env["SHARELATEX_EMAIL_SMTP_USER"]
-				pass: process.env["SHARELATEX_EMAIL_SMTP_PASS"]
+			secure: parse(process.env["SHARELATEX_EMAIL_SMTP_SECURE"])
+			ignoreTLS: parse(process.env["SHARELATEX_EMAIL_SMTP_IGNORE_TLS"])
 
+
+		templates:
+			customFooter: process.env["SHARELATEX_CUSTOM_EMAIL_FOOTER"]
+
+	if process.env["SHARELATEX_EMAIL_SMTP_USER"]? or process.env["SHARELATEX_EMAIL_SMTP_PASS"]?
+		settings.email.parameters.auth =
+			user: process.env["SHARELATEX_EMAIL_SMTP_USER"]
+			pass: process.env["SHARELATEX_EMAIL_SMTP_PASS"]
+
+	if process.env["SHARELATEX_EMAIL_SMTP_TLS_REJECT_UNAUTH"]?
+		settings.email.parameters.tls =
+			rejectUnauthorized: parse(process.env["SHARELATEX_EMAIL_SMTP_TLS_REJECT_UNAUTH"])
+		
 
 # Password Settings
 # -----------
@@ -457,7 +379,9 @@ if process.env["SHARELATEX_PASSWORD_VALIDATION_PATTERN"] or process.env["SHARELA
 # ShareLaTeX Server Pro
 #######################
 
-
+if parse(process.env["SHARELATEX_IS_SERVER_PRO"]) == true
+	settings.apis.references =
+		 url: "http://localhost:3040"
 
 
 # LDAP - SERVER PRO ONLY
@@ -476,36 +400,68 @@ if process.env["SHARELATEX_LDAP_HOST"]
 		fieldName: process.env["SHARELATEX_LDAP_FIELD_NAME"] or 'LDAP User'
 		placeholder: process.env["SHARELATEX_LDAP_PLACEHOLDER"] or 'LDAP User ID'
 		emailAtt: process.env["SHARELATEX_LDAP_EMAIL_ATT"] or 'mail'
-		anonymous: process.env["SHARELATEX_LDAP_ANONYMOUS"] or false
+		anonymous: parse(process.env["SHARELATEX_LDAP_ANONYMOUS"])
 		adminDN: process.env["SHARELATEX_LDAP_ADMIN_DN"]	
 		adminPW: process.env["SHARELATEX_LDAP_ADMIN_PW"]
-		starttls:  process.env["SHARELATEX_LDAP_TLS"] or false
-		tlsOptions:
-			rejectUnauthorized: process.env["SHARELATEX_LDAP_TLS_OPTS_REJECT_UNAUTH"] or false
-			ca: process.env["SHARELATEX_LDAP_TLS_OPTS_CA_PATH"] # e.g.'/etc/ldap/ca_certs.pem'
+		starttls:  parse(process.env["SHARELATEX_LDAP_TLS"])
+		nameAtt: process.env["SHARELATEX_LDAP_NAME_ATT"]
+		lastNameAtt: process.env["SHARELATEX_LDAP_LAST_NAME_ATT"]
+
+	if process.env["SHARELATEX_LDAP_TLS_OPTS_CA_PATH"]
+		try
+			ca = JSON.parse(process.env["SHARELATEX_LDAP_TLS_OPTS_CA_PATH"])
+		catch e
+			console.error "could not parse SHARELATEX_LDAP_TLS_OPTS_CA_PATH, invalid JSON"
+
+		if typeof(ca)  == 'string'
+			ca_paths = [ca]
+		else if typeof(ca) == 'object' && ca.length?
+			ca_paths = ca
+		else
+			console.error "problem parsing SHARELATEX_LDAP_TLS_OPTS_CA_PATH"
+
+		settings.ldap.tlsOptions =
+			rejectUnauthorized: process.env["SHARELATEX_LDAP_TLS_OPTS_REJECT_UNAUTH"] == "true"
+			ca:ca_paths  # e.g.'/etc/ldap/ca_certs.pem'
 
 # Compiler
 # --------
-if process.env["DOCKER_IN_DOCKER"]
-	clsi:
+if process.env["SANDBOXED_COMPILES"] == "true"
+	settings.clsi =
 		commandRunner: "docker-runner-sharelatex"
 		docker:
-			image: "sharelatex-texlive"
+			image: process.env["TEX_LIVE_DOCKER_IMAGE"]
 			env:
 				PATH: process.env["COMPILER_PATH"] or "/usr/local/texlive/2015/bin/x86_64-linux:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-			user: "tex"
+			user: "www-data"
+
+	if !settings.path?
+		settings.path = {}
+	settings.path.synctexBaseDir = () -> "/compile"
 
 
 # Templates
 # ---------
 if process.env["SHARELATEX_TEMPLATES_USER_ID"]
-	templates:
+	settings.templates =
 		mountPointUrl: "/templates"
 		user_id: process.env["SHARELATEX_TEMPLATES_USER_ID"]
+		
+	settings.templateLinks = parse(process.env["SHARELATEX_NEW_PROJECT_TEMPLATE_LINKS"])
 
 
+# /Learn
+# -------
+if process.env["SHARELATEX_PROXY_LEARN"]?
+	settings.proxyLearn = parse(process.env["SHARELATEX_PROXY_LEARN"])
 
 
+# /References
+# -----------
+if process.env["SHARELATEX_ELASTICSEARCH_URL"]?
+	settings.references.elasticsearch =
+			host: process.env["SHARELATEX_ELASTICSEARCH_URL"]
+	
 
 # With lots of incoming and outgoing HTTP connections to different services,
 # sometimes long running, it is a good idea to increase the default number
@@ -516,3 +472,4 @@ https = require('https')
 https.globalAgent.maxSockets = 300
 
 module.exports = settings
+
